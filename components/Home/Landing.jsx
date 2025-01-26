@@ -3,29 +3,35 @@ import React from "react";
 import { Button } from "@/components/ui/button";
 import { signOut } from "@/auth.js";
 import { signIn } from "@/auth";
+import Link from "next/link";
 
 const Landing = ({ session }) => {
   if (session) {
+    console.log("session", session.user);
     return (
       <div className="w-full h-[92vh] flex justify-center items-center ">
-        <div className="space-y-4">
+        <div className="space-y-4 h-[50vh] flex flex-col justify-between">
+          <h1 className="text-5xl text-center">Welcome {session.user.name}</h1>
           <Image
             src={session.user.image}
-            alt={session.user.name}
-            width={300}
-            height={300}
+            alt="userImage"
+            width={200}
+            height={200}
+            className="mx-auto rounded-full"
           />
-          <h1 className="text-4xl text-center">Welcome {session.user.name}</h1>
-          <p className="text-lg text-center">You are logged in</p>
-          <form
-            className="flex justify-center"
-            action={async () => {
-              "use server";
-              await signOut();
-            }}
-          >
-            <Button type="submit">Sign Out</Button>
-          </form>
+          <div className="flex justify-between">
+            <Link href="/post-job">
+              <Button type="sumbit" size="lg" className="text-lg">
+                Post Job
+              </Button>
+            </Link>
+
+            <Link href="/find-job">
+              <Button type="sumbit" size="lg" variant="" className="text-lg">
+                Find Job
+              </Button>
+            </Link>
+          </div>
         </div>
       </div>
     );
@@ -55,25 +61,23 @@ const Landing = ({ session }) => {
               <form
                 action={async () => {
                   "use server";
-                  await signIn("google");
+                  await signIn("google", { redirectTo: "/post-job" });
                 }}
               >
                 <Button type="sumbit" size="lg" className="text-lg">
-                Post Job
-              </Button>
+                  Post Job
+                </Button>
               </form>
               <form
                 action={async () => {
                   "use server";
-                  await signIn("google");
+                  await signIn("google", { redirectTo: "/find-job" });
                 }}
               >
                 <Button type="sumbit" size="lg" variant="" className="text-lg">
-                Find Job
-              </Button>
+                  Find Job
+                </Button>
               </form>
-              
-              
             </div>
           </div>
         </div>
