@@ -8,7 +8,8 @@ const page = async () => {
   const session = await auth();
   const { data, error } = await supabase
     .from("jobs")
-    .select("id,users(id,name,image),title,description,salary,slug,created_at");
+    .select("id,users(id,name,image),title,description,salary,slug,created_at")
+    .order("created_at", { ascending: false });
   // console.log("jobs", data);
   return (
     <div>
